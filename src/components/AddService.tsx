@@ -22,6 +22,8 @@ export function AddService ({recebeDados}:recebeDadosProps) {
         setClick(prevClick=>prevClick+1); 
         recebeDados(titulo, status);
 
+        <ServiceCard titulo={titulo} status = {status} />
+
         setTitulo("");
         setStatus("");
     }
@@ -43,8 +45,9 @@ export function AddService ({recebeDados}:recebeDadosProps) {
                 className="bg-amber-50 border border-black rounded-sm" />
             </div>
             <button onClick={handleClick} 
-            className="bg-amber-100 text-black">Adicionar</button>
-            {click != 0 && <ServiceCard titulo={titulo} status = {status} />}
+            className="bg-amber-100 text-black">
+                Adicionar
+            </button>
 
         </div>
     );
