@@ -31,12 +31,12 @@ export function AddService ({recebeDados}:recebeDadosProps) {
 
     return (
         <div className="flex justify-center">
-            <div className="flex columns-1 m-2">
+            <div className="m-2 grid grid-cols-1">
                 <input type="text" 
                 value={ titulo }
                 onChange ={(e)=> setTitulo(e.target.value)}
                 placeholder="Novo Serviço" 
-                className="bg-amber-50 border border-black rounded-sm" />
+                className="bg-amber-50 border border-black rounded-sm mb-2" />
 
                 <input type="text" 
                 value={ status }
@@ -45,7 +45,7 @@ export function AddService ({recebeDados}:recebeDadosProps) {
                 className="bg-amber-50 border border-black rounded-sm" />
             </div>
             <button onClick={handleClick} 
-            className="bg-amber-100 text-black">
+            className="bg-amber-100 text-black p-1 rounded-sm object-cover self-center">
                 Adicionar
             </button>
 
