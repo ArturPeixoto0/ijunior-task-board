@@ -39,7 +39,7 @@ export function ServiceCard({ titulo, nomeCliente, aparelho, defeito}: ServiceCa
                 </div>
                 <div className ="m-3 flex place-content-between">
                 <h2 className={`text-2xl  ${concluida ? "text-green-600 [-webkit-text-stroke:0.2px_white]":"text-red-700 [-webkit-text-stroke:0.2px_black]"}`}>{ status }</h2>
-                <button onClick={conclui}  className={`p-1 rounded-lg border border-black place-content-center ${concluida ? "bg-red-600" : "bg-green-600"}`}>{escritoBtn}</button>
+                <button onClick={conclui}  className={`p-1 rounded-lg border border-black place-content-center scale-100 hover:scale-110 cursor-pointer ${concluida ? "bg-red-600" : "bg-green-600"}`}>{escritoBtn}</button>
                 </div>
             </div>
         </div>

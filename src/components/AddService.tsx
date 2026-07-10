@@ -13,13 +13,15 @@ export function AddService ({recebeDados}:recebeDadosProps) {
     const [nomeCliente, setNomeCliente] = useState("");
     const [aparelho, setAparelho] = useState("");
     const [defeito, setDefeito] = useState("");
-    // const [status, setStatus] = useState("");
+    
+    const [textoErro, setTextoErro] = useState("");
     const [click, setClick] = useState(0);
 
     function handleClick(): void {
         
         if(titulo==="" || nomeCliente==="" || aparelho==="" || defeito==="" || click===0) {
             setClick(prevClick=>prevClick+1);
+            setTextoErro("Certifique-se de preencher todos os campos acima")
             return;
         }
         setClick(prevClick=>prevClick+1); 
@@ -35,6 +37,7 @@ export function AddService ({recebeDados}:recebeDadosProps) {
 
 
     return (
+        <div>
         <div className="flex justify-center">
             <div className="m-2 grid grid-cols-1">
                 <input type="text" 
@@ -63,10 +66,11 @@ export function AddService ({recebeDados}:recebeDadosProps) {
 
             </div>
             <button onClick={handleClick} 
-            className="bg-amber-100 text-black p-1 rounded-sm object-cover self-center">
+            className="bg-amber-100 text-black m-1 p-1 scale-100 hover:scale-110 cursor-pointer rounded-sm object-cover self-center">
                 Salvar
             </button>
-
+            </div>
+            {/* <h2 className="text-amber-100 flex items-center justify-center">Erro: {textoErro}</h2> */}
         </div>
     );
 }
