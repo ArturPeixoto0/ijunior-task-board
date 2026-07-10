@@ -15,7 +15,12 @@ export function ServiceCard({ titulo, nomeCliente, aparelho, defeito}: ServiceCa
 
     function conclui (): void {
         setConcluida((prevConcluida) => !prevConcluida);
-        setStatus("Concluída");
+        if(concluida === true){
+            setStatus("Concluída");
+        }
+        else {
+            setStatus("Em andamento");
+        }
     };
 
     return (
