@@ -11,15 +11,20 @@ interface ServiceCardProps {
 export function ServiceCard({ titulo, nomeCliente, aparelho, defeito}: ServiceCardProps) {
 
     const [concluida, setConcluida] = useState(false);
+    const [escritoBtn, setEscritoBtn] = useState("Concluir Serviço")
     const [status, setStatus] = useState("Em andamento");
 
     function conclui (): void {
-        setConcluida((prevConcluida) => !prevConcluida);
-        if(concluida === true){
+        const proxConcluída: boolean = !concluida
+        setConcluida(proxConcluída);
+
+        if(proxConcluída === true){
             setStatus("Concluída");
+            setEscritoBtn("Reabrir Serviço");
         }
-        else {
+        else if (proxConcluída === false) {
             setStatus("Em andamento");
+            setEscritoBtn("Concluir Serviço");
         }
     };
 
@@ -33,7 +38,7 @@ export function ServiceCard({ titulo, nomeCliente, aparelho, defeito}: ServiceCa
                     <h2>{defeito}</h2>
                 </div>
                 <h2 className="text-gray-400 ml-5">{ status }</h2>
-                <button onClick={conclui}  className={`m-2 p-1 rounded-lg border border-black place-content-center ${concluida ? "bg-red-600" : "bg-green-400"}`}>Completar</button>
+                <button onClick={conclui}  className={`m-2 p-1 rounded-lg border border-black place-content-center ${concluida ? "bg-red-600" : "bg-green-400"}`}>{escritoBtn}</button>
             </div>
         </div>
     );
