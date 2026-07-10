@@ -64,7 +64,7 @@ export function AddService ({recebeDados}:recebeDadosProps) {
             </div>
             <button onClick={handleClick} 
             className="bg-amber-100 text-black p-1 rounded-sm object-cover self-center">
-                Adicionar
+                Salvar
             </button>
 
         </div>
