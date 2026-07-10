@@ -21,7 +21,7 @@ export function AddService ({recebeDados}:recebeDadosProps) {
         
         if(titulo==="" || nomeCliente==="" || aparelho==="" || defeito==="" || click===0) {
             setClick(prevClick=>prevClick+1);
-            setTextoErro("Certifique-se de preencher todos os campos acima")
+            setTextoErro("ERRO: Certifique-se de preencher todos os campos acima")
             return;
         }
         setClick(prevClick=>prevClick+1); 
@@ -29,6 +29,7 @@ export function AddService ({recebeDados}:recebeDadosProps) {
 
         <ServiceCard titulo={titulo} nomeCliente={nomeCliente} aparelho={aparelho} defeito={defeito} />
 
+        setTextoErro("")
         setTitulo("");
         setNomeCliente("");
         setAparelho("");
@@ -38,39 +39,40 @@ export function AddService ({recebeDados}:recebeDadosProps) {
 
     return (
         <div>
-        <div className="flex justify-center">
-            <div className="m-2 grid grid-cols-1">
-                <input type="text" 
-                value={ titulo }
-                onChange ={(e)=> setTitulo(e.target.value)}
-                placeholder="Serviço" 
-                className="bg-amber-50 border border-black rounded-sm mb-2" />
+            <div className="flex justify-center">
+                <div className="m-2 grid grid-cols-1">
+                    <input type="text" 
+                    value={ titulo }
+                    onChange ={(e)=> setTitulo(e.target.value)}
+                    placeholder="Serviço" 
+                    className="bg-amber-50 border border-black rounded-sm mb-2" />
 
-                <input type="text" 
-                value={ nomeCliente }
-                onChange ={(e)=> setNomeCliente(e.target.value)}
-                placeholder="Nome do Cliente" 
-                className="bg-amber-50 border border-black rounded-sm mb-2" />
+                    <input type="text" 
+                    value={ nomeCliente }
+                    onChange ={(e)=> setNomeCliente(e.target.value)}
+                    placeholder="Nome do Cliente" 
+                    className="bg-amber-50 border border-black rounded-sm mb-2" />
 
-                <input type="text" 
-                value={ aparelho }
-                onChange ={(e)=> setAparelho(e.target.value)}
-                placeholder="Modelo do Aparelho" 
-                className="bg-amber-50 border border-black rounded-sm mb-2" />
+                    <input type="text" 
+                    value={ aparelho }
+                    onChange ={(e)=> setAparelho(e.target.value)}
+                    placeholder="Modelo do Aparelho" 
+                    className="bg-amber-50 border border-black rounded-sm mb-2" />
 
-                <input type="text" 
-                value={ defeito }
-                onChange ={(e)=> setDefeito(e.target.value)}
-                placeholder="Defeito" 
-                className="bg-amber-50 border border-black rounded-sm" />
+                    <input type="text" 
+                    value={ defeito }
+                    onChange ={(e)=> setDefeito(e.target.value)}
+                    placeholder="Defeito" 
+                    className="bg-amber-50 border border-black rounded-sm mb-4" />
 
+
+                    <button onClick={handleClick} 
+                        className="bg-amber-100 text-black m-1 p-1 border scale-100 hover:scale-110 cursor-pointer rounded-sm place-self-center">
+                        Salvar
+                    </button>
+                </div>
             </div>
-            <button onClick={handleClick} 
-            className="bg-amber-100 text-black m-1 p-1 scale-100 hover:scale-110 cursor-pointer rounded-sm object-cover self-center">
-                Salvar
-            </button>
-            </div>
-            {/* <h2 className="text-amber-100 flex items-center justify-center">Erro: {textoErro}</h2> */}
+            <h2 className="text-amber-100 flex items-center justify-center">{textoErro}</h2>
         </div>
     );
 }
