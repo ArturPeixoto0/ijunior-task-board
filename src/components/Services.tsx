@@ -4,31 +4,39 @@ import { useState } from 'react'
 
 interface Services {
         titulo: string;
-        status: string;
+        nomeCliente: string;
+        aparelho: string;
+        defeito: string;
     }
 
 export function Services() {
     const [auxServices, setAuxServices] = useState<Services>({
         titulo: "",
-        status: "",
+        nomeCliente: "",
+        aparelho: "",
+        defeito: "",
     });
     const [servicesList, setServiceList] = useState<Services[]>([]);
 
-    function CriaLista(T: string, S:string): void {
+    function CriaLista(T: string, NC: string, A: string, D: string): void {
         const servico: Services = {
             titulo:T,
-            status:S,
+            nomeCliente:NC,
+            aparelho:A,
+            defeito:D,
         };
         setServiceList((prevServiceList) => [...prevServiceList, servico]);
         //cria um novo elemento no vetor
     }
 
-    function recebeDados(tituloAux: string, statusAux: string): void {
+    function recebeDados(tituloAux: string,nomeClienteAux: string, aparelhoAux: string, defeitoAux: string): void {
         setAuxServices({
             titulo : tituloAux,
-            status : statusAux
+            nomeCliente: nomeClienteAux,
+            aparelho: aparelhoAux,
+            defeito: defeitoAux
         });
-        CriaLista(tituloAux, statusAux);
+        CriaLista(tituloAux, nomeClienteAux, aparelhoAux, defeitoAux);
     }
 
 

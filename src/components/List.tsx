@@ -2,7 +2,9 @@ import { ServiceCard } from './ServiceCard'
 
 interface Services {
         titulo: string;
-        status: string;
+        nomeCliente: string;
+        aparelho: string;
+        defeito: string;
     }
 
 interface ListProps {
@@ -16,7 +18,10 @@ export function List({Services}: ListProps) {
                 {Services.map((item, index) => {
                     return (
                         <li key={index}>
-                            <ServiceCard titulo={item.titulo} status={item.status}/>
+                            <ServiceCard titulo={item.titulo} 
+                                        nomeCliente={item.nomeCliente} 
+                                        aparelho={item.aparelho} 
+                                        defeito={item.defeito} />
                         </li>
                     )
                 })
