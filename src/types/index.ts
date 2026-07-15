@@ -1,2 +1,2 @@
-export * from './serviceClients';
+export * from './clients';
 export * from './serviceOrders';
