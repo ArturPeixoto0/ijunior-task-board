@@ -73,17 +73,7 @@ export const ServiceOrderList = ({refreshKey}:refreshKey) => {
        setServiceOrder(prev => prev.filter(c => c.id !== id));
     }
 
-
-    if (carregando) {
-      return (
-         <div className="flex justify-center items-center p-8">
-            <p className="text-amber-100 text-xl font-semibold animate-pulse">
-               Carregando ordens de serviço...
-            </p>
-         </div>
-      );
-   }
-
+    
     return (
        <ul>
 	  {serviceOrder.map(serviceOrder => (
