@@ -4,7 +4,7 @@ export function Header() {
     const navigate = useNavigate();
 
     return (
-        <header className="bg-amber-100 p-2">
+        <header className="bg-amber-100 p-2 sticky top-0">
             <h1 className ="text-red-800 flex items-center justify-center h-10">iRepair</h1> 
             <div className="bg-amber-150 w-120 border-2 border-black rounded-sm mx-auto my-1 p-1 flex items-center justify-center">
                 <nav>
