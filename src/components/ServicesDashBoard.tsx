@@ -15,8 +15,9 @@ function ClientName({id}: {id:number}) {
             setName(`Nome do Cliente: ${dataNome.name}`);
          } catch (error) {
             setName("Cliente não encontrado")
-         }
-      IdToName(); }
+         } 
+      } 
+      IdToName();
    }, [id]);
    return <p>{name}</p>;
 }
