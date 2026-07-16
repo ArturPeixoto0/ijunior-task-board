@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllClients, deleteClient } from '../services/clientsService';
 import type { Client } from '../types';
+import axios from 'axios';
 
 interface refreshKey {
    refreshKey: number;
@@ -8,12 +9,26 @@ interface refreshKey {
 
 export const ClientsList = ({refreshKey}:refreshKey) => {
    const [clients, setClients] = useState<Client[]>([]);
+   const [carregando, setCarregando] = useState(true)
+
 
    useEffect( () => {
       async function load() {
+         try {
+            setCarregando(true);
          const data = await getAllClients();
- 	 setClients(data);
-      }
+ 	      setClients(data);
+      } catch (error) {
+            if (axios.isAxiosError(error)) {
+	            console.error('Erro da API: ', error.response?.data);
+	            console.error('Status: ', error.response?.status);
+            } else {
+                console.error('Erro inesperado: ', error);
+            }
+        } finally {
+            setCarregando(false);
+        }
+   } 
       load();
 }, [refreshKey]);
 
@@ -22,6 +37,16 @@ export const ClientsList = ({refreshKey}:refreshKey) => {
        setClients(prev => prev.filter(c => c.id !== id));
        //filtra de modo que o cliente com o id não está mais incluido no vetor
     }
+
+    if (carregando) {
+      return (
+         <div className="flex justify-center items-center p-8">
+            <p className="text-amber-100 text-xl font-semibold animate-pulse">
+               Carregando clientes...
+            </p>
+         </div>
+      );
+   }
 
     return (
        <ul>

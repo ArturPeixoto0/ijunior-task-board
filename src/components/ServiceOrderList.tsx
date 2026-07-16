@@ -3,6 +3,7 @@ import type { ServiceOrder } from "../types";
 import { getAllServiceOrders, deleteServiceOrder } from '../services/serviceOrdersService';
 import { getEspecificClient } from '../services/clientsService';
 import type { ServiceOrderStatus } from '../types';
+import axios from 'axios';
 
 interface refreshKey {
    refreshKey: number;
@@ -41,13 +42,26 @@ function TipoStatus (status:ServiceOrderStatus): string {
 
 export const ServiceOrderList = ({refreshKey}:refreshKey) => {
    const [serviceOrder, setServiceOrder] = useState<ServiceOrder[]>([]);
+   const [carregando, setCarregando] = useState(true)
 
    useEffect( () => {
       async function load() {
+         try {
+         setCarregando(true);
          console.log("1. entrei no useEffect");
          const data = await getAllServiceOrders();
          console.log("2. Dados recebidos da API: ", data);
  	      setServiceOrder(data);
+         } catch(error) {
+            if (axios.isAxiosError(error)) {
+	            console.error('Erro da API: ', error.response?.data);
+	            console.error('Status: ', error.response?.status);
+            } else {
+                console.error('Erro inesperado: ', error);
+         } 
+      } finally {
+         setCarregando(false);
+         }
       }
       load();
       }, [refreshKey]);
@@ -58,6 +72,17 @@ export const ServiceOrderList = ({refreshKey}:refreshKey) => {
        await deleteServiceOrder(id);
        setServiceOrder(prev => prev.filter(c => c.id !== id));
     }
+
+
+    if (carregando) {
+      return (
+         <div className="flex justify-center items-center p-8">
+            <p className="text-amber-100 text-xl font-semibold animate-pulse">
+               Carregando ordens de serviço...
+            </p>
+         </div>
+      );
+   }
 
     return (
        <ul>

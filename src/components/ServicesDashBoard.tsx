@@ -16,8 +16,7 @@ function ClientName({id}: {id:number}) {
          } catch (error) {
             setName("Cliente não encontrado")
          }
-      }
-      IdToName();
+      IdToName(); }
    }, [id]);
    return <p>{name}</p>;
 }
@@ -34,18 +33,37 @@ function TipoStatus (status:ServiceOrderStatus): string {
    }  
 }
 
+
 export const ServicesDashBoard = () => {
    const [serviceOrder, setServiceOrder] = useState<ServiceOrder[]>([]);
+   const [carregando, setCarregando] = useState(true)
 
    useEffect( () => {
       async function load() {
+         try{
+            setCarregando(true)
          console.log("1. entrei no useEffect");
          const data = await getAllServiceOrders();
          console.log("2. Dados recebidos da API: ", data);
  	      setServiceOrder(data);
+         } catch {
+
+         } finally {
+            setCarregando(false);
+         }
       }
       load();
       }, []);
+
+      if (carregando) {
+      return (
+         <div className="flex justify-center items-center p-8">
+            <p className="text-amber-100 text-xl font-semibold animate-pulse">
+               Carregando ordens de serviço...
+            </p>
+         </div>
+      );
+   }
 
     return (
        <ul>
