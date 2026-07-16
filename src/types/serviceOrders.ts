@@ -2,7 +2,8 @@ export type ServiceOrderStatus = 'open' | 'in_progress' | 'done';
 
 export interface ServiceOrder {
   id: number;
-  client_id: number;
+  clientId?: number;
+  client_id?: number;
   device: string;
   issue: string;
   status: ServiceOrderStatus;

@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { ServiceOrder } from "../types";
-import { getAllServiceOrders, deleteServiceOrder } from '../services/serviceOrdersService';
+import { getAllServiceOrders } from '../services/serviceOrdersService';
 import { getEspecificClient } from '../services/clientsService';
-import type { ServiceOrderStatus } from '../types';
-
-interface refreshKey {
-   refreshKey: number;
-}
+import type { ServiceOrderStatus } from '../types'
 
 function ClientName({id}: {id:number}) {
    const [name, setName] = useState("");
@@ -38,8 +34,7 @@ function TipoStatus (status:ServiceOrderStatus): string {
    }  
 }
 
-
-export const ServiceOrderList = ({refreshKey}:refreshKey) => {
+export const ServicesDashBoard = () => {
    const [serviceOrder, setServiceOrder] = useState<ServiceOrder[]>([]);
 
    useEffect( () => {
@@ -50,14 +45,7 @@ export const ServiceOrderList = ({refreshKey}:refreshKey) => {
  	      setServiceOrder(data);
       }
       load();
-      }, [refreshKey]);
-
-
-
-   async function handleDelete(id:number) {
-       await deleteServiceOrder(id);
-       setServiceOrder(prev => prev.filter(c => c.id !== id));
-    }
+      }, []);
 
     return (
        <ul>
@@ -69,10 +57,6 @@ export const ServiceOrderList = ({refreshKey}:refreshKey) => {
          <p>Problema: {serviceOrder.issue} </p>
          <p>Status: {TipoStatus(serviceOrder.status)} </p>
          <p>ID do Serviço: {serviceOrder.id} </p>
-		   <button onClick={() => handleDelete(serviceOrder.id)}
-            className="bg-red-600 p-1 mt-2 border border-black rounded-md cursor-pointer">
-			Excluir
-		   </button>
 	      </li>
            ))}
        </ul>
