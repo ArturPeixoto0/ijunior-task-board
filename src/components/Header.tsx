@@ -4,11 +4,11 @@ export function Header() {
     const navigate = useNavigate();
 
     return (
-        <header className="bg-amber-100 p-2 sticky top-0">
+        <header className="bg-amber-100 p-2 sticky top border-2 border-black">
             <h1 className ="text-red-800 flex items-center justify-center h-10">iRepair</h1> 
             <div className="bg-amber-150 w-120 border-2 border-black rounded-sm mx-auto my-1 p-1 flex items-center justify-center">
                 <nav>
-                    <Link to="/" className="text-red-800 m-2">DahBoard</Link>
+                    <Link to="/" className="text-red-800 m-2">DashBoard</Link>
                     <Link to="/clients" className="text-red-800 m-2">Clientes</Link>
                     <Link to="/service-orders" className="text-red-800 m-2">Ordens de Serviço</Link>
                 </nav>
