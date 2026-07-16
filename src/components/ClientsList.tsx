@@ -30,7 +30,7 @@ export const ClientsList = ({refreshKey}:refreshKey) => {
 		    <p>Nome: {client.name} </p>
           <p>Telefone: {client.phone } </p>
           <p>Email: {client.email} </p>
-          <p>ID: {client.id } </p>
+          <p>ID do Cliente: {client.id } </p>
 		   <button onClick={() => handleDelete(client.id)}
             className="bg-red-600 p-1 mt-2 border border-black rounded-md cursor-pointer">
 			Excluir

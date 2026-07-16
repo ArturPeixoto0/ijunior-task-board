@@ -1,5 +1,6 @@
 import { createClient } from "../services/clientsService";
 import { useState } from 'react';
+import axios from 'axios';
 
 // o imput cria um CreateServiceOrderData que vai ser usado como parametro do createServiceOrder
 
@@ -17,7 +18,7 @@ export function AddClient ( {refreshKey}: refreshKey) {
     async function handleClick() {
         try {
         if(name === "" || phone==="" || email==="") {
-            setTextoErro("ERRO: Certifique-se de preencher todos os campos acima")
+            setTextoErro("ERRO: Certifique-se de preencher todos os campos acima corretamente")
             return;
         } 
 
@@ -37,7 +38,12 @@ export function AddClient ( {refreshKey}: refreshKey) {
         setEmail("");
 
         } catch (error) {
-            console.log("ERRO");
+            if (axios.isAxiosError(error)) {
+	            console.error('Erro da API: ', error.response?.data);
+	            console.error('Status: ', error.response?.status);
+            } else {
+                console.error('Erro inesperado: ', error);
+            }
         }
     }
 

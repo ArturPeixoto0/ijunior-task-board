@@ -6,6 +6,11 @@ export async function getAllClients(): Promise<Client[]> {
    return response.data;
 } //"baixa" o vetor de clientes
 
+export async function getEspecificClient(id:number): Promise<Client> {
+   const response = await api.get<Client>(`/clients/${id}`);
+   return response.data;
+} //"baixa" o vetor de clientes
+
 export async function createClient(data: CreateClientData): Promise<Client> {
    const response = await api.post<Client>('/clients', data);
    return response.data;
