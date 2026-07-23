@@ -1,8 +1,19 @@
+import { Link, useNavigate } from 'react-router-dom';
+
 export function Header() {
+    const navigate = useNavigate();
+
     return (
-        <header className="h-10">
-            <h1 className ="text-amber-100 flex items-center justify-center h-10">iJunior Task Board</h1> 
-            {/* tem que ser h-10 no h1, pois é o h do Header, assim o h1 estará verticalmente no meio */}
+        <header className="bg-amber-100 p-2 sticky top border-2 border-black">
+            <h1 className ="text-red-800 flex items-center justify-center h-10">iRepair</h1> 
+            <div className="bg-amber-150 w-120 border-2 border-black rounded-sm mx-auto my-1 p-1 flex items-center justify-center">
+                <nav>
+                    <Link to="/" className="text-red-800 m-2">DashBoard</Link>
+                    <Link to="/clients" className="text-red-800 m-2">Clientes</Link>
+                    <Link to="/service-orders" className="text-red-800 m-2">Ordens de Serviço</Link>
+                </nav>
+                <button onClick={() => navigate(-1)} className="bg-red-800 p-1 ml-2 border border-black rounded-lg cursor-pointer">Voltar</button>
+            </div>
         </header>
     );
 }
