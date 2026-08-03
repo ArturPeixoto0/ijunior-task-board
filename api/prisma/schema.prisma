@@ -1,0 +1,33 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String
+  createdAt DateTime @default(now())
+}
+
+enum ServiceOrderStatus {
+  open
+  in_progress
+  done
+}
+
+model ServiceOrder {
+  id        Int                @id @default(autoincrement())
+  clientId  Int                @map("client_id")
+  device    String
+  issue     String
+  status    ServiceOrderStatus @default(open) 
+  createdAt DateTime           @default(now()) @map("created_at")
+}
