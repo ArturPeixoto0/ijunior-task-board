@@ -1,4 +1,5 @@
 import type { Client } from '@prisma/client'
+import jwt from 'jsonwebtoken'
 
 declare global {
   namespace NodeJS {
@@ -6,7 +7,7 @@ declare global {
       PORT: string
       DATABASE_URL: string
       JWT_SECRET: string
-      JWT_EXPIRES_IN: string
+      JWT_EXPIRES_IN: jwt.SignOptions['expiresIn']
       NODE_ENV: 'development' | 'production' | 'test'
     }
   }
