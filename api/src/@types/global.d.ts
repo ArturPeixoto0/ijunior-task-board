@@ -1,4 +1,4 @@
-import type { Client } from '@prisma/client'
+import type { Client } from '.prisma/client'
 import jwt from 'jsonwebtoken'
 
 declare global {
