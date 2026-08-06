@@ -2,19 +2,18 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model Client {
   id        Int      @id @default(autoincrement())
   name      String
   phone     String
-  email     String
+  email     String   @unique
+  senha     String
   createdAt DateTime @default(now())
 }
 
