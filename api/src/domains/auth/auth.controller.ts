@@ -15,7 +15,7 @@ export class AuthController {
 
   async login(req: Request, res: Response) {
     const { email, senha } = req.body
-    const { token, usuario } = await authService.login(email, senha)
+    const { token, cliente } = await authService.login(email, senha)
 
     // Setando o cookie httpOnly
     res.cookie('token', token, {
@@ -25,12 +25,17 @@ export class AuthController {
       maxAge: 60 * 60 * 1000,  // 1 hora em milissegundos
     })
 
-    return res.status(200).json({ usuario })
+    return res.status(200).json({ cliente })
   }
 
   async logout(req: Request, res: Response) {
     res.clearCookie('token')
     return res.status(200).json({ message: 'Logout realizado com sucesso' })
+  }
+
+  
+  async me(req: Request, res: Response) {
+    return res.status(200).json({ usuario: req.client })
   }
 
 }
