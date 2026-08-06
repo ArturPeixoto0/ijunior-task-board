@@ -9,41 +9,41 @@ const SALT_ROUNDS = 10
 export class AuthService {
 
   async register(email: string, senha: string) {
-    const usuarioExistente = await prisma.client.findUnique({
+    const clienteExistente = await prisma.client.findUnique({
       where: { email },
     })
 
-    if (usuarioExistente) {
+    if (clienteExistente) {
       throw new AppError('Email já cadastrado', 409)
     }
 
     const senhaHash = await bcrypt.hash(senha, SALT_ROUNDS)
 
-    const usuario = await prisma.client.create({
+    const cliente = await prisma.client.create({
       data: { email, senha: senhaHash },
       select: { id: true, email: true },  // nunca retorne o hash da senha
     })
 
-    return usuario
+    return cliente
   }
 
   async login(email: string, senha: string) {
-    const usuario = await prisma.client.findUnique({
+    const cliente = await prisma.client.findUnique({
       where: { email },
     })
 
-    if (!usuario) {
+    if (!cliente) {
       throw new AppError('Credenciais inválidas', 401)
     }
 
-    const senhaCorreta = await bcrypt.compare(senha, usuario.senha)
+    const senhaCorreta = await bcrypt.compare(senha, cliente.senha)
 
     if (!senhaCorreta) {
       throw new AppError('Credenciais inválidas', 401)
     }
 
-    const token = generateToken({ id: usuario.id, email: usuario.email })
+    const token = generateToken({ id: cliente.id, email: cliente.email })
 
-    return { token, usuario: { id: usuario.id, email: usuario.email } }
+    return { token, cliente: { id: cliente.id, email: cliente.email } }
   }
 }
