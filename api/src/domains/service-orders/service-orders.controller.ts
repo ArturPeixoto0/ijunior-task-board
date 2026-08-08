@@ -7,7 +7,7 @@ export class ordensController {
   
   async create(req: Request, res: Response) {
   // req.user está disponível porque o authMiddleware rodou antes
-  const usuarioId = req.client!.id
+  const usuarioId = req.user!.id
 
   const ordem = await service.create({
     ...req.body,
