@@ -1,7 +1,7 @@
 // src/domains/auth/auth.controller.ts
 import { Request, Response } from 'express'
 import { AuthService } from './auth.service'
-import { Client } from '.prisma/client'
+import { User } from '.prisma/client'
 
 const authService = new AuthService()
 
@@ -9,13 +9,13 @@ export class AuthController {
 
   async register(req: Request, res: Response) {
     const { email, senha } = req.body
-    const cliente = await authService.register(email, senha)
-    return res.status(201).json(cliente)
+    const user = await authService.register(email, senha)
+    return res.status(201).json(user)
   }
 
   async login(req: Request, res: Response) {
     const { email, senha } = req.body
-    const { token, cliente } = await authService.login(email, senha)
+    const { token, user } = await authService.login(email, senha)
 
     // Setando o cookie httpOnly
     res.cookie('token', token, {
@@ -25,7 +25,7 @@ export class AuthController {
       maxAge: 60 * 60 * 1000,  // 1 hora em milissegundos
     })
 
-    return res.status(200).json({ cliente })
+    return res.status(200).json({ user })
   }
 
   async logout(req: Request, res: Response) {
@@ -35,7 +35,7 @@ export class AuthController {
 
   
   async me(req: Request, res: Response) {
-    return res.status(200).json({ usuario: req.client })
+    return res.status(200).json({ usuario: req.user })
   }
 
 }
