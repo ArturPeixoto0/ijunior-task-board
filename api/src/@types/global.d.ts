@@ -14,7 +14,7 @@ declare global {
 
    namespace Express {
     interface Request {
-      client?: Pick<User, 'id' | 'email'>
+      user?: Pick<User, 'id' | 'email'>
     }
   }
 }
