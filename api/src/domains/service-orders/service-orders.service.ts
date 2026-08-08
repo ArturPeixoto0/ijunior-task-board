@@ -22,43 +22,43 @@ export class ordensService {
         throw new Error("Id do cliente é obrigatório");
     }
     
-    const novaTarefa = await prisma.serviceOrder.create( { data: {device: device, issue: issue, clientId: clientId} })
+    const novaOrdem = await prisma.serviceOrder.create( { data: {device: device, issue: issue, clientId: clientId} })
 
-    return novaTarefa;
+    return novaOrdem;
   }
 
   async delete(id:number){
     try {
       await prisma.serviceOrder.delete({where: {id}});
     
-      const ListaDeTarefas = await prisma.serviceOrder.findMany();
+      const ListaDeOrdens = await prisma.serviceOrder.findMany();
     
-      return ListaDeTarefas;
+      return ListaDeOrdens;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
-        throw new Error('Tarefa não encontrada.');
+        throw new Error('Ordem de serviço não encontrada.');
       }
       throw error;
     }
   }
 
   async specific (id:number) {
-    const TarefaEspecifica = await prisma.serviceOrder.findUnique({where: {id}})
+    const OrdemEspecifica = await prisma.serviceOrder.findUnique({where: {id}})
     
-    if (!TarefaEspecifica){
-      throw new Error(`Não existe uma tarefa com o ID ${id}`);
+    if (!OrdemEspecifica){
+      throw new Error(`Não existe uma ordem de serviço com o ID ${id}`);
     }
     
-    return TarefaEspecifica;
+    return OrdemEspecifica;
   }
 
   async update (id:number, status: ServiceOrderStatus) {
     try {
-      let TarefaAtualizada = await prisma.serviceOrder.update({where: {id}, data: {}})
+      let OrdemAtualizada = await prisma.serviceOrder.update({where: {id}, data: {}})
 
-      TarefaAtualizada = await prisma.serviceOrder.update({where: {id}, data: {status: status}});
+      OrdemAtualizada = await prisma.serviceOrder.update({where: {id}, data: {status: status}});
 
-      return TarefaAtualizada;
+      return OrdemAtualizada;
     } catch (error) {
       throw new Error(`Não existe uma tarefa com o ID ${id}`);
     }
@@ -72,7 +72,7 @@ export class ordensService {
     const ListaFiltrada = await prisma.serviceOrder.findMany({where: {status: status}})
 
     if (ListaFiltrada.length === 0) {
-      throw new Error(`Não há nenhuma tarefa que possua tal atributo`);
+      throw new Error(`Não há nenhuma ordem de serviço que possua tal atributo`);
     }
 
     return ListaFiltrada;
