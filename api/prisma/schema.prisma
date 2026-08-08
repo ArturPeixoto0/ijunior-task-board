@@ -8,13 +8,22 @@ datasource db {
   provider = "mysql"
 }
 
-model Client {
+model User {
   id        Int      @id @default(autoincrement())
-  name      String?
-  phone     String?
+  name      String
   email     String   @unique
   senha     String
   createdAt DateTime @default(now())
+}
+
+model Client {
+  id            Int      @id @default(autoincrement())
+  name          String?
+  phone         String?
+  email         String?
+  createdAt     DateTime @default(now())
+
+  serviceOrders serviceOrders[]
 }
 
 enum ServiceOrderStatus {
@@ -26,6 +35,7 @@ enum ServiceOrderStatus {
 model ServiceOrder {
   id        Int                @id @default(autoincrement())
   clientId  Int                @map("client_id")
+  client    Client             @relation(fields: [clientId], references: [id])
   device    String
   issue     String
   status    ServiceOrderStatus @default(open) 
