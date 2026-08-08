@@ -23,7 +23,7 @@ model Client {
   email         String?
   createdAt     DateTime @default(now())
 
-  serviceOrders serviceOrders[]
+  serviceOrders ServiceOrder[]
 }
 
 enum ServiceOrderStatus {
