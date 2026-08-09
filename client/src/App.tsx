@@ -14,12 +14,13 @@ export function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
 
-        <Route element = {<PrivateRoute />} />
+        <Route element = {<PrivateRoute />} >
         <Route element = {<MainLayout /> }>
           <Route path="/" element={<DashBoardPage />} />
           <Route path="/clients" element={<ClientsPage />} />
           <Route path="/service-orders" element={<ServiceOrderPage />} />
           <Route path="*" element={<h1>Caminho não encontrado!</h1>} />
+        </Route>
         </Route>
       </Routes>
     </AuthProvider>

@@ -1,7 +1,5 @@
-// src/pages/Login.tsx
 import { useState } from 'react'
-import type { SubmitEvent } from 'react'
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/authContext' 
 
 export function Login() {
@@ -10,10 +8,20 @@ export function Login() {
   const [erro, setErro]             = useState<string | null>(null)
   const [carregando, setCarregando] = useState(false)
 
-  const { login } = useAuth()
+  const { login, isAuthenticated, isLoading } = useAuth()
   const navigate  = useNavigate()
 
-  async function handleSubmit(e: SubmitEvent) {
+  
+  if (isLoading) {
+    return <div>Carregando...</div>
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />
+  }
+
+  // 3. Handler de envio do formulário
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setErro(null)
     setCarregando(true)
@@ -32,8 +40,20 @@ export function Login() {
     <div>
       <h1>iRepair — Login</h1>
       <form onSubmit={handleSubmit}>
-        <input type="email"    value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
-        <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="Senha" required />
+        <input 
+          type="email" 
+          value={email} 
+          onChange={e => setEmail(e.target.value)} 
+          placeholder="Email" 
+          required 
+        />
+        <input 
+          type="password" 
+          value={senha} 
+          onChange={e => setSenha(e.target.value)} 
+          placeholder="Senha" 
+          required 
+        />
         {erro && <p style={{ color: 'red' }}>{erro}</p>}
         <button type="submit" disabled={carregando}>
           {carregando ? 'Entrando...' : 'Entrar'}

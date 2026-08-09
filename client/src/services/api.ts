@@ -7,17 +7,19 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // Remova o header Authorization com o token hardcoded — não é mais necessário.
-  // A autenticação agora é feita via cookie, que o browser envia sozinho.
+
 })
 
-// Redireciona para /login sempre que a API retornar 401 (token expirado ou ausente)
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response?.status === 401) {
+    const isAuthMe = error.config?.url?.includes('/auth/me')
+    const isLoginPage = window.location.pathname === '/login'
+
+    if (error.response?.status === 401 && !isAuthMe && !isLoginPage) {
       window.location.href = '/login'
     }
+
     return Promise.reject(error)
   }
 )
