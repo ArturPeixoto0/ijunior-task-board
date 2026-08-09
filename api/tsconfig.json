@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-
-    "module": "nodenext",
+    "module": "commonjs",
+    "moduleResolution": "bundler",
     "target": "esnext",
     "types": [],
 
@@ -18,10 +18,10 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": [
-    "src/**/*",        
-    "@types/**/*"      
+    "src/**/*",
+    "@types/**/*"
   ]
 }
