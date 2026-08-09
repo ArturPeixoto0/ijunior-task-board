@@ -1,19 +1,35 @@
-import 'dotenv/config'
-import * as MariaDbAdapterModule from '@prisma/adapter-mariadb'
-import { PrismaClient } from '@prisma/client'
-import { createPool } from 'mariadb'
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "@prisma/client";
 
-// Handle CJS/ESM interop and naming variances
-const PrismaMariaDB =
-  (MariaDbAdapterModule as any).PrismaMariaDB ||
-  (MariaDbAdapterModule as any).PrismaMariaDb ||
-  (MariaDbAdapterModule as any).default?.PrismaMariaDB ||
-  (MariaDbAdapterModule as any).default?.PrismaMariaDb
+const password = process.env.DB_PASSWORD;
 
-// Converte 'mysql://' para 'mariadb://' especificamente para o driver do MariaDB
-const connectionString = (process.env.DATABASE_URL || '').replace(/^mysql:\/\//, 'mariadb://')
+if (!password) {
+  throw new Error("DB_PASSWORD não foi definida no arquivo .env");
+}
 
-const pool = createPool(connectionString)
-const adapter = new PrismaMariaDB(pool)
+const adapter = new PrismaMariaDb({
+  host: "127.0.0.1",
+  port: 3306,
+  user: "root",
+  password: password,
+  database: "irepair",
+  connectionLimit: 10,
+  connectTimeout: 10_000,
+  acquireTimeout: 10_000,
+});
 
-export const prisma = new PrismaClient({ adapter })
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    adapter,
+    log: ["query", "info", "warn", "error"],
+  });
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
