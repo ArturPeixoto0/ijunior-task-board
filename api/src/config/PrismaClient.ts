@@ -10,7 +10,10 @@ const PrismaMariaDB =
   (MariaDbAdapterModule as any).default?.PrismaMariaDB ||
   (MariaDbAdapterModule as any).default?.PrismaMariaDb
 
-const pool = createPool(process.env.DATABASE_URL!)
+// Converte 'mysql://' para 'mariadb://' especificamente para o driver do MariaDB
+const connectionString = (process.env.DATABASE_URL || '').replace(/^mysql:\/\//, 'mariadb://')
+
+const pool = createPool(connectionString)
 const adapter = new PrismaMariaDB(pool)
 
 export const prisma = new PrismaClient({ adapter })
