@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+
 import { authRoutes } from '../domains/auth/auth.routes';  
 import { ordensRoutes } from '../domains/service-orders/service-orders.routes';
 import { clientRoutes } from '../domains/clients/clients.routes';
@@ -15,7 +16,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use('/auth', authRoutes);
-app.use('/ordens', ordensRoutes);
+app.use('/service-orders', ordensRoutes);
 app.use('/clients', clientRoutes)
 
 
