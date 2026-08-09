@@ -6,4 +6,4 @@ export interface Client {
   createdAt: string;
 }
 
-export type CreateClientData = Omit<Client, 'id' | 'created_at'>;
+export type CreateClientData = Omit<Client, 'id' | 'createdAt'>;

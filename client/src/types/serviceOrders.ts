@@ -9,4 +9,4 @@ export interface ServiceOrder {
   createdAt: string;
 }
 
-export type CreateServiceOrderData = Omit<ServiceOrder, 'id' | 'created_at'>;
+export type CreateServiceOrderData = Omit<ServiceOrder, 'id' | 'createdAt'>;
