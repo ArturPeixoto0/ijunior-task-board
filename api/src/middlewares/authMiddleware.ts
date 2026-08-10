@@ -11,7 +11,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
   try {
     const payload = verifyToken(token)
-    req.client = { id: payload.id, email: payload.email }
+    req.user = { id: payload.id, email: payload.email }
     return next()
   } catch {
     return res.status(401).json({ error: 'Token inválido ou expirado' })
