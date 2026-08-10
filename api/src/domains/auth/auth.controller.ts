@@ -1,7 +1,7 @@
 // src/domains/auth/auth.controller.ts
 import { Request, Response } from 'express'
 import { AuthService } from './auth.service'
-import { User } from '.prisma/client'
+import { user } from '.prisma/client'
 
 const authService = new AuthService()
 
