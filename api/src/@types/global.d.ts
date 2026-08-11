@@ -9,6 +9,7 @@ declare global {
       JWT_SECRET: string
       JWT_REFRESH_SECRET: string
       JWT_EXPIRES_IN: jwt.SignOptions['expiresIn']
+      JWT_REFRESH_EXPIRES_IN: jwt.SignOptions['expiresIn']
       NODE_ENV: 'development' | 'production' | 'test'
     }
   }
