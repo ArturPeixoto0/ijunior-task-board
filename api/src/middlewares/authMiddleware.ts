@@ -1,6 +1,6 @@
 // src/middlewares/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express'
-import { verifyToken } from '../utils/token'
+import { verifyAccessToken } from '../utils/token'
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies?.token
@@ -10,10 +10,11 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 
   try {
-    const payload = verifyToken(token)
+    const payload = verifyAccessToken(token)
     req.user = { id: payload.id, email: payload.email }
     return next()
   } catch {
     return res.status(401).json({ error: 'Token inválido ou expirado' })
   }
+
 }
