@@ -2,6 +2,7 @@
 import { Request, Response } from 'express'
 import { AuthService } from './auth.service'
 import { user } from '.prisma/client'
+import { AppError } from '../../utils/AppError'
 
 const authService = new AuthService()
 
@@ -13,23 +14,35 @@ export class AuthController {
     return res.status(201).json(user)
   }
 
+
+  async refresh(req: Request, res: Response) {
+    const refreshToken = req.cookies?.refreshToken
+    if(!refreshToken) {
+      throw new AppError('Não autorizado', 401)
+    }
+
+    const accessToken = await authService.refresh(refreshToken)
+
+    return res.status(200).json({ accessToken })
+  }
+
   async login(req: Request, res: Response) {
     const { email, senha } = req.body
-    const { token, user } = await authService.login(email, senha)
+    const { refreshToken, accessToken, user } = await authService.login(email, senha)
 
-    // Setando o cookie httpOnly
-    res.cookie('token', token, {
+
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,     
       secure: false,     
       sameSite: 'lax',    
-      maxAge: 60 * 60 * 1000,  // 1 hora em milissegundos
+      maxAge: 168 * 60 * 60 * 1000,  // 7 dias
     })
 
-    return res.status(200).json({ user })
+    return res.status(200).json({ user, accessToken })
   }
 
   async logout(req: Request, res: Response) {
-    res.clearCookie('token')
+    res.clearCookie('refreshToken')
     return res.status(200).json({ message: 'Logout realizado com sucesso' })
   }
 
