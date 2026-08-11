@@ -7,6 +7,7 @@ declare global {
       PORT: string
       DATABASE_URL: string
       JWT_SECRET: string
+      JWT_REFRESH_SECRET: string
       JWT_EXPIRES_IN: jwt.SignOptions['expiresIn']
       NODE_ENV: 'development' | 'production' | 'test'
     }
