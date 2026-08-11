@@ -1,8 +1,10 @@
 // src/domains/auth/auth.service.ts
+
 import bcrypt from 'bcrypt'
 import { prisma } from '../../config/PrismaClient'
-import { generateToken } from '../../utils/token' 
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/token' 
 import { AppError } from '../../utils/AppError'  
+
 
 const SALT_ROUNDS = 10
 
@@ -27,6 +29,24 @@ export class AuthService {
     return user
   }
 
+  async refresh (refreshToken: string) {
+    let payload;
+    try {
+      payload = verifyRefreshToken(refreshToken)
+    } catch {
+      throw new AppError('Token inválido', 401)
+    }
+    const user = await prisma.user.findUnique({
+    where: { id: payload.id } })
+    
+    if (!user) {
+      throw new AppError('Credenciais inválidas', 401)
+    }
+
+    const accessToken = generateAccessToken({ id: user.id, email: user.email })    
+    return accessToken;
+  }
+
   async login(email: string, senha: string) {
     const user = await prisma.user.findUnique({
       where: { email },
@@ -42,8 +62,9 @@ export class AuthService {
       throw new AppError('Credenciais inválidas', 401)
     }
 
-    const token = generateToken({ id: user.id, email: user.email })
+    const refreshToken = generateRefreshToken({id: user.id})
+    const accessToken = generateAccessToken({ id: user.id, email: user.email })
 
-    return { token, user: { id: user.id, email: user.email } }
+    return { refreshToken, accessToken, user: { id: user.id, email: user.email } }
   }
 }
