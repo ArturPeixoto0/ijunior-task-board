@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model client {
+  id           Int            @id @default(autoincrement())
+  name         String?
+  phone        String?
+  email        String?
+  createdAt    DateTime       @default(now())
+  serviceorder serviceorder[]
+}
+
+model serviceorder {
+  id         Int                 @id @default(autoincrement())
+  client_id  Int
+  device     String
+  issue      String
+  status     serviceorder_status @default(open)
+  created_at DateTime            @default(now())
+  client     client              @relation(fields: [client_id], references: [id], map: "ServiceOrder_client_id_fkey")
+
+  @@index([client_id], map: "ServiceOrder_client_id_fkey")
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique(map: "User_email_key")
+  senha     String
+  createdAt DateTime @default(now())
+}
+
+enum serviceorder_status {
+  open
+  in_progress
+  done
+}
