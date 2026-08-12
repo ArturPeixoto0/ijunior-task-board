@@ -12,14 +12,26 @@ export const api = axios.create({
 
 api.interceptors.response.use(
   response => response,
-  error => {
-    const isAuthMe = error.config?.url?.includes('/auth/me')
-    const isLoginPage = window.location.pathname === '/login'
+  async error => {
+    const Request = error.config;
+    const isAuthMe = error.config?.url?.includes('/auth/me');
+    const isLoginPage = window.location.pathname === '/login';
 
-    if (error.response?.status === 401 && !isAuthMe && !isLoginPage) {
-      window.location.href = '/login'
+    if (error.response?.status === 401 && !isAuthMe && !isLoginPage && !Request.tentativa) {
+      Request.tentativa = true;
+
+      try {
+      const { data } = await api.post('/auth/refresh')
+      const newAccessToken = data.accessToken
+      Request.headers['Authorization'] = `Bearer ${newAccessToken}`
+
+      return api(Request)
+
+      } catch (refreshError) {
+          window.location.href = '/login'
+          return Promise.reject(refreshError)
+      }
     }
-
     return Promise.reject(error)
   }
 )
